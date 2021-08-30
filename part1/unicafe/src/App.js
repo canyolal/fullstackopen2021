@@ -15,7 +15,7 @@ const Statistics = ({good,bad,neutral}) => {
   const avg = (good*1 + bad*(-1) + neutral*0) / (good+bad+neutral)
   const positive = good / (good+bad+neutral) *100
 
-  if (good==0 && bad == 0 && neutral == 0){
+  if (good===0 && bad === 0 && neutral === 0){
     return(
       <div>
         No feedback given
@@ -24,23 +24,43 @@ const Statistics = ({good,bad,neutral}) => {
   }
 
   return(
-    <div>
-      <StatisticsLine text="good" value={good} />
-      <StatisticsLine text="neutral" value={neutral} />
-      <StatisticsLine text="bad" value={bad} />
-      all {total}
-      <br />
-      average {avg}
-      <br />
-      Positive {positive}%
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td> <StatisticsLine inp="good" /> </td>
+          <td> <StatisticsLine inp={good} /> </td>
+        </tr>
+        <tr>
+          <td> <StatisticsLine inp="neutral" /> </td>
+          <td> <StatisticsLine inp={neutral} /> </td>
+        </tr>
+        <tr>
+          <td> <StatisticsLine inp="bad" /> </td>
+          <td> <StatisticsLine inp={bad} /> </td>
+        </tr>
+        <tr>
+          <td> all</td>
+          <td> {total}</td>
+        </tr>
+        <tr>
+          <td>average</td>
+          <td>{avg}</td>
+        </tr>
+        <tr>
+          <td>Positive </td>
+          <td>{positive}%</td>
+        </tr>
+      </tbody>
+    </table> 
+      
+      
   )
 }
 
-const StatisticsLine = ({text,value}) => {
+const StatisticsLine = ({inp}) => {
   return(
     <div>
-      {text} {value}
+      {inp}
       <br />
     </div>
   )
