@@ -3,11 +3,11 @@ import Parts from './Parts.js'
 
 const Content = ({parts}) => {
     return(
-        <ul>
+        <div>
             {parts.map(parts => 
                 <Parts key={parts.id} parts={parts} />
             )}
-        </ul>
+        </div>
     )
 }
 
