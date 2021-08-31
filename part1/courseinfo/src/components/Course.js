@@ -3,7 +3,6 @@ import Header from './Header.js'
 import Content from './Content.js'
 
 const Course = ({course}) => {
-    console.log(course.parts)
     return(
         <div>
             <Header course={course} />
