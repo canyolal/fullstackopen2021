@@ -1,15 +1,17 @@
 import React from 'react'
 import Header from './Header.js'
-import Content from './Content.js'
-import SumParts from './SumParts.js'
-
 
 const Course = ({course}) => {
     return(
         <div>
-            <Header course={course} />
-            <Content parts={course.parts} />
-            <SumParts parts={course.parts} />
+            <h1>
+                Web Development Curriculum
+            </h1>
+            {course.map(course =>
+                <Header key={course.id} courses={course} />
+            )}
+            
+            {/* <SumParts parts={course.parts} /> */}
         </div>
       
     )

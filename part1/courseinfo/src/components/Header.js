@@ -1,8 +1,18 @@
 import React from 'react'
+import Content from './Content.js'
+import SumParts from './SumParts.js'
 
-const Header = ({course}) => {
+const Header = ({courses}) => {
     return(
-        <h2>{course.name}</h2>
+        <div>
+            <h2>{courses.name}</h2>
+            <Content parts={courses.parts} />
+            <SumParts parts={courses.parts} />
+        </div>
+        
+
+
+        
     )
 }
 
