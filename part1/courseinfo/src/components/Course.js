@@ -10,8 +10,6 @@ const Course = ({course}) => {
             {course.map(course =>
                 <Header key={course.id} courses={course} />
             )}
-            
-            {/* <SumParts parts={course.parts} /> */}
         </div>
       
     )
