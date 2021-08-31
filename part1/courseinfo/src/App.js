@@ -58,9 +58,10 @@ const Part = (props) => {
 }
 
 const Total = (props) => {
+  const total = props.ex1 + props.ex2 + props.ex3
   return(
     <div>
-      <p>Number of exercises {props.ex1} {props.ex2} {props.ex3}</p>
+      <p>Number of exercises {total}</p>
     </div>
   ) 
 }
