@@ -1,69 +1,39 @@
-import React, { useState } from 'react'
-import Names from './components/Names.js'
+import React, { useEffect, useState } from 'react'
+import PersonForm from './components/PersonForm.js'
+import Persons from './components/Persons.js'
+import Filter from './components/Filter.js'
+import axios from 'axios'
+
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' , 
-      id:1}
-  ]) 
+  const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  // const [ newFilter, setNewFilter ] = useState('')
 
-  const addName = (event) => {
-    event.preventDefault()
-
-    const nameObject = {
-      name: newName,
-      id: persons.length +1
-    }
-    let checker = false
-    for(let i=0; i<persons.length; i++){
-      if (persons[i].name === newName){
-        checker = true
-      }
-    }
-
-    console.log('new name', newName)
-    console.log('array check', checker)
-    if(checker){
-      setNewName('')
-      console.log('it is in the list')
-      window.alert(`${newName} is already added to phonebook`)
-    }
-    else{
-      console.log('it is not in the list')
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-    }
-
-  }
-
-  const handleNewName = (event) =>{
-    console.log(event.target.value)
-    setNewName(event.target.value)
-
-  }
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  },
+  [],)
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form onSubmit={addName}>
-        <div>
-          name:
-          <input 
-            value={newName}
-            onChange={handleNewName}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      
-      {persons.map(person =>
-        <Names key={person.id} persons={person}/> 
-      )}
-      
+      <h1>Phonebook</h1>
+      {/* <Filter newFilter={newFilter} setNewFilter={setNewFilter} persons={persons}/> */}
+
+      <h2>Add a new contact</h2>
+      <PersonForm newName={newName} newNumber={newNumber} persons={persons} 
+        setNewName={setNewName} setNewNumber={setNewNumber} setPersons={setPersons}/>
+
+
+      <h3>Numbers</h3>
+      <Persons persons={persons} />
     </div>
   )
 }
