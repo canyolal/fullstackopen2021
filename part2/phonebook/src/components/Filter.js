@@ -2,7 +2,6 @@ import React,{useState} from 'react'
 
 const Filter =  ({persons}) => {
     const [filtered, setFilter] = useState(persons);
-    const [showFilter, setShowFilter] = useState(false)
     
     const handleSearch = (event) => {
         event.preventDefault()
@@ -11,15 +10,13 @@ const Filter =  ({persons}) => {
         
         let result = []
         result = persons.filter((data) => {
-          if (value != ""){
+          if (value !== ""){
             return data.name.toLowerCase().search(value) !== -1;
           }
           
         })
         setFilter(result)
         console.log('result length', result.length)
-
-    
       }    
     
     return (
