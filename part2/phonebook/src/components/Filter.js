@@ -1,45 +1,43 @@
-// import React from 'react'
+import React,{useState} from 'react'
 
-// const Filter =  ({newFilter,setNewFilter,persons}) => {
-
-//     const addFilter = (event) => {
-//         event.preventDefault()
-
-//         const filteredName = newFilter
+const Filter =  ({persons}) => {
+    const [filtered, setFilter] = useState(persons);
+    const [showFilter, setShowFilter] = useState(false)
+    
+    const handleSearch = (event) => {
+        event.preventDefault()
+        let value = event.target.value
+        value = value.toLowerCase()
         
-//         const filterLogic = () => {
-//             for (let i=0; i < persons.length ; i++){
-//                 if(persons[i].name === newFilter){
-                    
-//                 }
-//             }
-//         }
+        let result = []
+        result = persons.filter((data) => {
+          if (value != ""){
+            return data.name.toLowerCase().search(value) !== -1;
+          }
+          
+        })
+        setFilter(result)
+        console.log('result length', result.length)
 
-//         const nameToShow = showAll
-//         ? persons
-//         : persons.filter()
+    
+      }    
+    
+    return (
+        <div>
+          Filter shown with: 
+            <input type="text"
+              onChange ={handleSearch}
+            />
+          {filtered.map((value,index)=>{
+            return(
+              <li key={value.id}>
+                {value.name} - {value.number}
+              </li>
+            )
+          })}
+        </div>
+      );
 
+}
 
-//     }
-
-//     const handleNewFilter = (event) =>{
-//         console.log(event.target.value)
-//         setNewFilter(event.target.value)
-//     }
-//     return(
-//         <form onSubmit={}>
-//             <div>
-//             search by name
-//                 <input 
-//                     value={newFilter}
-//                     onChange={handleNewFilter}
-//                 />
-//             </div>
-//             <div>
-//                 <button type="Filter"> Filter</button>
-//             </div>
-//          </form>
-//     )
-// }
-
-// export default Filter
+export default Filter

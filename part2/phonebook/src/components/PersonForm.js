@@ -18,9 +18,6 @@ const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPerso
             if (persons[i].name === newName){
                 nameChecker = true
             }
-            if (persons[i].number === newNumber){
-                numberChecker = true
-            }
         }
     
         console.log('new name', newName)
@@ -55,6 +52,7 @@ const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPerso
             <div>
             name:
                 <input 
+                    type="text"
                     value={newName}
                     onChange={handleNewName}
                 />
@@ -62,6 +60,7 @@ const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPerso
             <div>
             number: 
                 <input 
+                    type ="text"
                     value={newNumber}
                     onChange={handleNewNumber}  
                 />
