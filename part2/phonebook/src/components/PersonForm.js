@@ -1,4 +1,5 @@
 import React from 'react'
+import personService from './../services/personService.js'
  
 const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPersons}) =>{
 
@@ -7,67 +8,93 @@ const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPerso
     
         const nameObject = {
           name: newName,
-          id: persons.length +1,
           number: newNumber,
+          id: persons.length +1
         }
     
         let nameChecker = false //control whether name in the list or not
+
         let numberChecker = false //control whether number in the list or not
     
         for(let i=0; i<persons.length; i++){
-            if (persons[i].name === newName){
+            if (persons[i].name.toLowerCase() === newName.toLowerCase()){
                 nameChecker = true
             }
+            if (persons[i].number.toLowerCase() === newNumber.toLowerCase()) {
+                numberChecker = true
+            }
         }
-    
-        console.log('new name', newName)
-        console.log('array check', nameChecker)
-        if(nameChecker){
-          setNewName('')
-          console.log('it is in the list')
-          window.alert(`${newName} is already added to phonebook`)
+
+        if(nameChecker){ //if name exists in db
+            //if in the list
+            setNewName('')
+            setNewNumber('')
+
+            if (!numberChecker){ // do you want to update your number? 
+                if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+                    const matchedPerson = persons.filter(person => 
+                        person.name.toLowerCase() == newName.toLowerCase() ?
+                        person : ""
+                    )
+                    personService
+                        .update(matchedPerson[0].id, {name: matchedPerson[0].name, number: newNumber, id: matchedPerson[0].id})
+                        .then(response => {
+                            const newPersons=persons.filter(person => 
+                                person.name == response.name ? 
+                                person.number = response.number : person.number)
+                            setPersons(newPersons)
+                        })
+                }
+            }
+            else{
+                //do nothing if do not give consent to update the number
+            }
         }
         else{
-          console.log('it is not in the list')
-          setPersons(persons.concat(nameObject))
-          setNewName('')
+            //if not in the list
+            console.log(nameObject)
+            personService
+                .create(nameObject)
+                .then(returnedData => {
+                    setPersons(persons.concat(nameObject))
+                    setNewName('')
+                    setNewNumber('')
+            })
+            .catch(response => {
+                console.log('fail')
+            })
+
         }
     
       }
 
     const handleNewNumber = (event) =>{
-        console.log(event.target.value)
         setNewNumber(event.target.value)
-    
+
     }
     
     const handleNewName = (event) =>{
-        console.log(event.target.value)
         setNewName(event.target.value)
-    
+
     }
 
     return(
         <form onSubmit={addContact}>
-            <div>
             name:
                 <input 
                     type="text"
                     value={newName}
                     onChange={handleNewName}
                 />
-            </div>
-            <div>
+            <br/>
             number: 
                 <input 
                     type ="text"
                     value={newNumber}
                     onChange={handleNewNumber}  
                 />
-            </div>
-            <div>
-                <button type="submit">add</button>
-            </div>
+            <br/>
+            <button type="submit">Add</button>
          </form>
     )
     
