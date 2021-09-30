@@ -1,7 +1,7 @@
 import React from 'react'
 import personService from './../services/personService.js'
  
-const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPersons}) =>{
+const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPersons,message,setMessage}) =>{
 
     const addContact = (event) => {
         event.preventDefault()
@@ -33,16 +33,20 @@ const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPerso
             if (!numberChecker){ // do you want to update your number? 
                 if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
                     const matchedPerson = persons.filter(person => 
-                        person.name.toLowerCase() == newName.toLowerCase() ?
+                        person.name.toLowerCase() === newName.toLowerCase() ?
                         person : ""
                     )
                     personService
                         .update(matchedPerson[0].id, {name: matchedPerson[0].name, number: newNumber, id: matchedPerson[0].id})
                         .then(response => {
                             const newPersons=persons.filter(person => 
-                                person.name == response.name ? 
+                                person.name === response.name ? 
                                 person.number = response.number : person.number)
                             setPersons(newPersons)
+                        })
+                        .catch(error => {
+                            console.log("This user is already deleted.")
+                            setMessage(`Information of ${matchedPerson[0].name} has already been removed from server.`)
                         })
                 }
             }
@@ -59,6 +63,8 @@ const PersonForm = ({newName,newNumber,persons,setNewName,setNewNumber,setPerso
                     setPersons(persons.concat(nameObject))
                     setNewName('')
                     setNewNumber('')
+                    setMessage(`${nameObject.name} is added`)
+                    setTimeout(()=> setMessage(null),3000)
             })
             .catch(response => {
                 console.log('fail')

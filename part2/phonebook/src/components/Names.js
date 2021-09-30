@@ -21,7 +21,7 @@ const Names = ({persons,setPersons}) => {
     return (
         <form onSubmit={deleteUser}>
             {persons.name} {persons.number}
-            <button type="submit">Delete</button>
+            <button className="deleteButton" type="submit">Delete</button>
         </form>
     ) 
 }

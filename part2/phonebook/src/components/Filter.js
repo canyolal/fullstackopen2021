@@ -13,6 +13,9 @@ const Filter =  ({persons}) => {
           if (value !== ""){
             return data.name.toLowerCase().search(value) !== -1;
           }
+          else {
+             return null
+          }
           
         })
         setFilter(result)
