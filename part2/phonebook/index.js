@@ -1,15 +1,27 @@
 const express = require("express")
+const app = express()
 const morgan = require("morgan")
 const cors = require("cors")
+require('dotenv').config()
 const Person = require("./models/Person")
-const app = express()
+app.use(express.static("build"))
 app.use(cors())
 app.use(express.json())
-require('dotenv').config()
+
 
 //define body field to show what data we are posting
 morgan.token('body', (request, response) => JSON.stringify(request.body))
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body - :req[content-length]'))
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.mesage)
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" })
+  }
+
+  next(error)
+}
 
 const generateId = () => {
   //const maxId = Math.max(...persons.map(persons => persons.id))
@@ -109,6 +121,14 @@ app.put("/api/persons/:id", (request, response, next) => {
       next(error)
     })
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+app.use(errorHandler)
 
 
 // get single person w/out mongo setup
