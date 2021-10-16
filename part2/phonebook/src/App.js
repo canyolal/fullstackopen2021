@@ -7,9 +7,9 @@ import Notification from './components/Notification.js'
 import './index.css'
 
 const App = () => {
-  const [ persons, setPersons] = useState([])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
+  const [persons, setPersons] = useState([])
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
   const [message, setMessage] = useState(null)
 
 
@@ -19,23 +19,22 @@ const App = () => {
       .then(response => {
         setPersons(response)
       })
-  },
-  [],)
+  }, [])
 
   return (
     <div>
       <h1>Phonebook</h1>
       <Notification message={message} />
 
-      <Filter persons={persons}/>
+      <Filter persons={persons} />
 
       <h2>Add a new contact</h2>
-      <PersonForm newName={newName} newNumber={newNumber} persons={persons} 
+      <PersonForm newName={newName} newNumber={newNumber} persons={persons}
         setNewName={setNewName} setNewNumber={setNewNumber} setPersons={setPersons}
-        message={message} setMessage= {setMessage}/>
+        message={message} setMessage={setMessage} />
 
       <h3>Numbers</h3>
-      <Persons persons={persons} setPersons={setPersons}/>
+      <Persons persons={persons} setPersons={setPersons} />
     </div>
   )
 }
