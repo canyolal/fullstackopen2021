@@ -8,16 +8,17 @@ app.use(express.static("build"))
 app.use(cors())
 app.use(express.json())
 
-
 //define body field to show what data we are posting
 morgan.token('body', (request, response) => JSON.stringify(request.body))
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body - :req[content-length]'))
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.mesage)
+  console.error(error.message)
 
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" })
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
@@ -80,7 +81,7 @@ app.delete("/api/persons/:id", (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body
 
   if (!body.name || !body.number) {
@@ -97,12 +98,13 @@ app.post("/api/persons", (request, response) => {
     "name": body.name,
     "number": body.number
   })
-  console.log("My Person Obj", personObj)
 
-  personObj.save().then(savedPerson => {
-    console.log("New person added to MongoDB")
-    response.json(savedPerson)
-  })
+  personObj.save()
+    .then(savedPerson => {
+      console.log("New person added to MongoDB")
+      response.json(savedPerson)
+    })
+    .catch(error => next(error))
 
 })
 
