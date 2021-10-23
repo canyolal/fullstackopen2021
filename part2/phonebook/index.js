@@ -2,22 +2,24 @@ const express = require("express")
 const app = express()
 const morgan = require("morgan")
 const cors = require("cors")
-require('dotenv').config()
+require("dotenv").config()
 const Person = require("./models/Person")
 app.use(express.static("build"))
 app.use(cors())
 app.use(express.json())
 
 //define body field to show what data we are posting
-morgan.token('body', (request, response) => JSON.stringify(request.body))
-app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body - :req[content-length]'))
+morgan.token("body", (request, response) => JSON.stringify(request.body))
+app.use(morgan(":method :url :status :response-time ms - :res[content-length] :body - :req[content-length]"))
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" })
   } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message })
+  } else if (error.name === "mongoose-unique-validator") {
     return response.status(400).json({ error: error.message })
   }
 
@@ -87,6 +89,8 @@ app.post("/api/persons", (request, response, next) => {
   if (!body.name || !body.number) {
     return response.status(400).json({ error: "Bad request, missing info" })
   }
+
+
   // const nameChecker = Person.find(person => person.name.toLowerCase() === body.name.toLowerCase() ? true : false)
 
   // if (nameChecker) {
@@ -119,13 +123,12 @@ app.put("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then(updatedPerson => {
       response.json(updatedPerson)
-    }).catch(error => {
-      next(error)
-    })
+    }).catch(error => next(error)
+    )
 })
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
+  response.status(404).send({ error: "unknown endpoint" })
 }
 
 app.use(unknownEndpoint)

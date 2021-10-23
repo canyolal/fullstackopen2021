@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
 const Filter = ({ persons }) => {
-  const [filtered, setFilter] = useState(persons);
+  const [filtered, setFilter] = useState(persons)
 
   const handleSearch = (event) => {
     event.preventDefault()
@@ -19,7 +19,7 @@ const Filter = ({ persons }) => {
 
     })
     setFilter(result)
-    console.log('result length', result.length)
+    console.log("result length", result.length)
   }
 
   return (
@@ -36,7 +36,7 @@ const Filter = ({ persons }) => {
         )
       })}
     </div>
-  );
+  )
 
 }
 

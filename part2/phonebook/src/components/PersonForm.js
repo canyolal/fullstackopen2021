@@ -1,5 +1,5 @@
-import React from 'react'
-import personService from './../services/personService.js'
+import React from "react"
+import personService from "./../services/personService.js"
 
 const PersonForm = ({ newName, newNumber, persons, setNewName, setNewNumber, setPersons, message, setMessage }) => {
 
@@ -66,8 +66,8 @@ const PersonForm = ({ newName, newNumber, persons, setNewName, setNewNumber, set
                     setMessage(`${nameObject.name} is added`)
                     setTimeout(() => setMessage(null), 3000)
                 })
-                .catch(response => {
-                    console.log('fail')
+                .catch(error => {
+                    setMessage(`Person Validation Failed: ${Object.values(error.response.data)}`)
                 })
 
         }

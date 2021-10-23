@@ -1,5 +1,5 @@
-import React from 'react'
-import personService from './../services/personService.js'
+import React from "react"
+import personService from "./../services/personService.js"
 
 
 const Names = ({ persons, setPersons }) => {
