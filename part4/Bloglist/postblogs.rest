@@ -1,0 +1,11 @@
+post http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NinR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNhbmNhbiIsImlkIjoiNjE4NmRkZTAyOGI1ODE2ZTcxY2Y5NTBiIiwiaWF0IjoxNjM2MjgyNjU0fQ.zn03GzoRdDMCol_oDyHK3SwrC1OoAf0bigiPyrp4FXg
+
+{
+  "title" : "authorization blog",
+  "author": "authorization senpai",
+  "url": "http://www.test.com",
+  "likes": 127863,
+  "userId" : "6186dde028b5816e71cf950b"
+}
