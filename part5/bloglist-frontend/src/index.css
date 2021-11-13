@@ -6,3 +6,17 @@
   color: white;
   padding: 3px;
 }
+
+table,th,td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th{
+  text-align: justify;
+  font-size: large;
+}
+
+input {
+  margin-left: 3px;
+}
