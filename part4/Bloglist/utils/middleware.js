@@ -1,5 +1,5 @@
-const Blog = require("../models/blog")
-const jwt = require("jsonwebtoken")
+// const User = require("../models/user")
+// const jwt = require("jsonwebtoken")
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" })
@@ -15,26 +15,22 @@ const tokenExtractor = (request, response, next) => {
   next()
 }
 
-const userExtractor = async (request, response, next) => {
+// const userExtractor = async (request, response, next) => {
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+//   const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-  if (!(request.token || decodedToken.id)) {
-    return response.status(401).json({ error: "token missing or invalid" })
-  }
+//   if (!(request.token || decodedToken.id)) {
+//     return response.status(401).json({ error: "token missing or invalid" })
+//   }
 
-  const blog = await Blog.findById(request.params.id)
+//   let user = await User.findById(decodedToken.id)
 
-  if (blog.user.toString() !== decodedToken.id) {
-    return response.status(401).json({ error: "token missing or invalid" })
-  }
-  request.user = blog.user.toString()
+//   request.user = user
 
-  next()
-}
+//   next()
+// }
 
 module.exports = {
   unknownEndpoint,
-  tokenExtractor,
-  userExtractor
+  tokenExtractor
 }

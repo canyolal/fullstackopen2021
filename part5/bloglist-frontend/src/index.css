@@ -1,0 +1,8 @@
+.outer{
+}
+
+.outer .notification {
+  background-color: #f44336;
+  color: white;
+  padding: 3px;
+}
